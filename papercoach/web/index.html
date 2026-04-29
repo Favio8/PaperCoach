@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PaperCoach</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M5 8.5 16 3l11 5.5v15L16 29 5 23.5z" />
+              <path d="M10 11.5v9l6 3v-9z" />
+              <path d="M22 11.5v9l-6 3v-9z" />
+            </svg>
+          </div>
+          <span>PaperCoach</span>
+        </div>
+        <div class="paper-title">Attention Is All You Need (NeurIPS 2017)</div>
+        <div class="top-actions">
+          <button class="ghost-button icon-only export-notes-button" type="button" aria-label="导出笔记" title="导出笔记">
+            <span class="icon export-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">导出笔记</span>
+          </button>
+          <button class="ghost-button icon-only settings-button" type="button" aria-label="设置" title="设置">
+            <span class="icon gear-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">设置</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="left-rail">
+          <section class="panel stage-panel">
+            <h2>阅读阶段</h2>
+            <nav class="stage-list" aria-label="阅读阶段">
+              <button class="stage-item is-done" type="button">
+                <span class="stage-icon target-icon"></span>
+                <span>背景</span>
+                <span class="stage-state check-mark"></span>
+              </button>
+              <button class="stage-item is-active" type="button">
+                <span class="stage-icon question-icon"></span>
+                <span>问题</span>
+                <span class="stage-state chevron"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon bulb-icon"></span>
+                <span>核心想法</span>
+                <span class="stage-state circle"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon cube-icon"></span>
+                <span>系统架构</span>
+                <span class="stage-state circle"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon tool-icon"></span>
+                <span>方法</span>
+                <span class="stage-state circle"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon flask-icon"></span>
+                <span>实验</span>
+                <span class="stage-state circle"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon chart-icon"></span>
+                <span>结果</span>
+                <span class="stage-state circle"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon warning-icon"></span>
+                <span>局限</span>
+                <span class="stage-state circle"></span>
+              </button>
+              <button class="stage-item" type="button">
+                <span class="stage-icon chat-icon"></span>
+                <span>思考</span>
+                <span class="stage-state circle"></span>
+              </button>
+            </nav>
+          </section>
+
+          <section class="panel paper-meta">
+            <h2>论文信息</h2>
+            <div class="meta-card">
+              <h3>Attention Is All You Need</h3>
+              <dl>
+                <div>
+                  <dt>作者</dt>
+                  <dd class="paper-authors">Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, ...</dd>
+                </div>
+                <div class="meta-row">
+                  <dt>上传状态</dt>
+                  <dd class="upload-status">
+                    <span class="success-dot">上传成功</span>
+                    <button class="text-button upload-button" type="button">重新上传</button>
+                    <button class="text-button zotero-import-button" type="button">从 Zotero 导入</button>
+                  </dd>
+                </div>
+                <div class="meta-row">
+                  <dt>已解析章节</dt>
+                  <dd class="strong parsed-sections">9 / 9</dd>
+                </div>
+                <div class="meta-row">
+                  <dt>页数</dt>
+                  <dd class="paper-pages">15</dd>
+                </div>
+                <div>
+                  <dt>论文链接</dt>
+                  <dd>
+                    <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noreferrer">
+                      arxiv.org/abs/1706.03762
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>上传时间</dt>
+                  <dd>2024-05-20 14:32</dd>
+                </div>
+              </dl>
+              <input class="upload-input" type="file" accept="application/pdf,.pdf" hidden />
+            </div>
+          </section>
+        </aside>
+
+        <div class="pane-resizer left-pane-resizer" role="separator" aria-orientation="vertical" aria-label="调整左侧栏宽度"></div>
+
+        <section class="center-stage">
+          <section class="reader panel" aria-label="论文阅读器">
+            <div class="reader-toolbar">
+              <div class="toolbar-group page-controls" aria-label="页码控制">
+                <button class="toolbar-button prev-page-button" type="button" aria-label="上一页"></button>
+                <div class="page-input"><span>2</span><em>/ 15</em></div>
+                <button class="toolbar-button next-page-button" type="button" aria-label="下一页"></button>
+              </div>
+              <div class="reader-goal-pill" title="当前阅读目标">
+                <span class="reader-stage-badge">问题 · 2 / 9</span>
+                <strong class="reader-goal">理解现有论文阅读工具没有解决的问题。</strong>
+              </div>
+              <div class="toolbar-spacer"></div>
+              <div class="toolbar-group zoom-controls" aria-label="缩放控制">
+                <button class="zoom-control zoom-out-button" type="button">-</button>
+                <div class="zoom-pill">120%</div>
+                <button class="zoom-control zoom-in-button" type="button">+</button>
+              </div>
+              <div class="toolbar-group reader-actions" aria-label="阅读器操作">
+                <button class="toolbar-text continuous-mode-button" type="button">连续</button>
+                <button class="toolbar-text fit-width-button" type="button">页宽</button>
+                <button class="toolbar-text toggle-draft-button" type="button">笔记</button>
+                <button class="toolbar-text focus-reader-button" type="button">专注阅读</button>
+                <button class="toolbar-icon reset-icon reset-layout-button" type="button" aria-label="重置布局"></button>
+                <button class="toolbar-icon book-icon outline-button" type="button" aria-label="目录"></button>
+                <button class="toolbar-icon search-icon search-button" type="button" aria-label="搜索"></button>
+                <button class="toolbar-icon download-icon download-paper-button" type="button" aria-label="下载"></button>
+                <button class="toolbar-icon expand-icon fullscreen-button" type="button" aria-label="全屏"></button>
+              </div>
+            </div>
+
+            <article class="paper-page">
+              <div class="pdf-page-viewer" hidden>
+                <div class="pdf-loading">正在渲染 PDF 页面...</div>
+                <img class="pdf-page-image" alt="PDF 页面渲染" />
+              </div>
+              <div class="pdf-continuous-viewer" hidden></div>
+              <div class="paper-content">
+                <h2><span>1</span> Introduction</h2>
+                <p>
+                  <mark>Sequence transduction problems are commonly formulated with an encoder-decoder
+                  approach</mark> [Sutskever et al., 2014, Cho et al., 2014]. The best performing
+                  models also connect the encoder and decoder through an attention mechanism.
+                </p>
+                <p>
+                  <mark>However, recurrent models suffer from an inherent sequential computation
+                  limitation that precludes parallel training within sequence positions</mark>, which
+                  becomes critical at longer sequence lengths.
+                  <span class="evidence-chip">第 1.2 节</span>
+                </p>
+                <p>
+                  Attention, as an alternative, has been shown to be an effective mechanism in practice
+                  for sequence modeling and transduction.
+                </p>
+                <p>
+                  <mark>In this work, we combine these observations and propose a new simple network
+                  architecture, the Transformer, based solely on attention mechanisms, dispensing with
+                  recurrence and convolutions entirely.</mark>
+                </p>
+                <p>
+                  Experiments on two machine translation tasks show these models to be superior in
+                  quality while being more parallelizable, requiring substantially less time to train.
+                </p>
+              </div>
+
+              <figure class="architecture-figure" aria-label="图 1 Transformer 架构">
+                <div class="figure-stack">
+                  <div>Output<br />Probabilities</div>
+                  <div class="small-box">Softmax</div>
+                  <div class="small-box">Linear</div>
+                  <div class="block">Add &amp; Norm</div>
+                  <div class="block">Feed<br />Forward</div>
+                  <div class="block">Add &amp; Norm</div>
+                  <div class="block">Multi-Head<br />Attention</div>
+                  <div class="small-box pink">Input<br />Embedding</div>
+                </div>
+                <figcaption>Figure 1: The overall architecture of our model.</figcaption>
+              </figure>
+            </article>
+          </section>
+        </section>
+
+        <div class="pane-resizer right-pane-resizer" role="separator" aria-orientation="vertical" aria-label="调整右侧栏宽度"></div>
+
+        <aside class="coach-panel panel">
+          <div class="coach-header">
+            <div class="coach-tabs" role="tablist" aria-label="右侧辅助面板">
+              <button class="coach-tab is-active" type="button" role="tab" aria-selected="true" data-side-tab="coach">
+                <span class="mini-icon bot-icon"></span>
+                AI 阅读教练
+              </button>
+              <button class="coach-tab" type="button" role="tab" aria-selected="false" data-side-tab="notes">
+                <span class="mini-icon book-icon"></span>
+                阶段笔记
+              </button>
+            </div>
+            <div class="coach-actions">
+              <button class="collapse-coach-button" type="button" aria-label="折叠"></button>
+              <button class="more-button" type="button" aria-label="更多"></button>
+            </div>
+          </div>
+
+          <section class="coach-tab-panel is-active" data-tab-panel="coach">
+            <div class="coach-stage-line">
+              <span class="reader-stage-badge">问题 · 2 / 9</span>
+              <strong class="coach-current-goal">理解现有论文阅读工具没有解决的问题。</strong>
+            </div>
+
+            <div class="guidance-block">
+              <span class="block-icon eye-icon"></span>
+              <div>
+                <p>建议阅读：</p>
+                <strong>引言第 2-4 段，以及图 1</strong>
+              </div>
+            </div>
+            <div class="guidance-block">
+              <span class="block-icon target-icon"></span>
+              <div>
+                <p>重点关注：</p>
+                <strong>现有摘要工具的局限</strong>
+              </div>
+            </div>
+
+            <section class="questions">
+              <h3>引导问题</h3>
+              <ol>
+                <li>
+                  <span>1</span>
+                  <p>现有工具没有解决的核心问题是什么？</p>
+                </li>
+                <li>
+                  <span>2</span>
+                  <p>论文中哪些证据支持这个判断？</p>
+                </li>
+                <li>
+                  <span>3</span>
+                  <p>PaperCoach 和普通 PDF 问答工具有什么不同？</p>
+                </li>
+              </ol>
+            </section>
+
+            <label class="answer-box">
+              <textarea maxlength="1000" placeholder="请基于论文证据写下你的回答……"></textarea>
+              <span>0 / 1000</span>
+            </label>
+
+            <div class="coach-buttons">
+              <button class="primary-button submit-answer-button" type="button">
+                <span class="send-icon"></span>
+                提交回答
+              </button>
+              <button class="secondary-button request-hint-button" type="button">
+                <span class="bulb-icon"></span>
+                请求提示
+              </button>
+            </div>
+            <section class="feedback-panel" hidden aria-live="polite"></section>
+          </section>
+
+          <section class="coach-tab-panel notes-tab-panel" data-tab-panel="notes" aria-label="阶段笔记">
+            <div class="draft-heading">
+              <div>
+                <h2>
+                  <span class="mini-icon book-icon"></span>
+                  阶段笔记
+                </h2>
+                <p>按当前阅读阶段保存，刷新后仍会保留。</p>
+              </div>
+              <span class="draft-status" aria-live="polite">当前阶段已加载</span>
+            </div>
+            <div class="draft-grid">
+              <article class="draft-card">
+                <h3>
+                  <span class="mini-icon book-icon"></span>
+                  原文证据
+                </h3>
+                <textarea
+                  class="draft-editor"
+                  data-draft-key="facts"
+                  aria-label="编辑原文证据"
+                  spellcheck="true"
+                  placeholder="把论文中的关键句、页码、图表编号写在这里"
+                ></textarea>
+                <div class="card-footer">共 4 条事实</div>
+              </article>
+              <article class="draft-card">
+                <h3>
+                  <span class="mini-icon user-icon"></span>
+                  我的理解
+                </h3>
+                <textarea
+                  class="draft-editor"
+                  data-draft-key="understanding"
+                  aria-label="编辑我的理解"
+                  spellcheck="true"
+                  placeholder="写下你自己的判断、概括和不确定处"
+                ></textarea>
+                <div class="card-footer">共 2 条理解</div>
+              </article>
+              <article class="draft-card">
+                <h3>
+                  <span class="mini-icon question-icon"></span>
+                  待追问
+                </h3>
+                <textarea
+                  class="draft-editor"
+                  data-draft-key="questionsWorth"
+                  aria-label="编辑待追问问题"
+                  spellcheck="true"
+                  placeholder="记录下一轮要问自己或 AI 教练的问题"
+                ></textarea>
+                <div class="card-footer">共 3 个问题</div>
+              </article>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="modal-backdrop" hidden>
+      <section class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <header>
+          <h2 id="settings-title">设置</h2>
+          <button class="modal-close-button" type="button" aria-label="关闭设置">×</button>
+        </header>
+        <div class="settings-form">
+          <label>
+            阅读反馈强度
+            <select>
+              <option>标准</option>
+              <option>更严格</option>
+              <option>更鼓励</option>
+            </select>
+          </label>
+          <label>
+            每阶段问题数量
+            <select>
+              <option>3 个</option>
+              <option>4 个</option>
+              <option>5 个</option>
+            </select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" checked />
+            提交回答后自动更新阶段笔记
+          </label>
+        </div>
+        <footer>
+          <button class="secondary-button modal-close-button" type="button">取消</button>
+          <button class="primary-button save-settings-button" type="button">保存设置</button>
+        </footer>
+      </section>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
