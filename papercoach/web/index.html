@@ -37,15 +37,15 @@
           <section class="panel stage-panel">
             <h2>阅读阶段</h2>
             <nav class="stage-list" aria-label="阅读阶段">
-              <button class="stage-item is-done" type="button">
+              <button class="stage-item is-active" type="button">
                 <span class="stage-icon target-icon"></span>
                 <span>背景</span>
-                <span class="stage-state check-mark"></span>
+                <span class="stage-state chevron"></span>
               </button>
-              <button class="stage-item is-active" type="button">
+              <button class="stage-item" type="button">
                 <span class="stage-icon question-icon"></span>
                 <span>问题</span>
-                <span class="stage-state chevron"></span>
+                <span class="stage-state circle"></span>
               </button>
               <button class="stage-item" type="button">
                 <span class="stage-icon bulb-icon"></span>
@@ -135,12 +135,12 @@
             <div class="reader-toolbar">
               <div class="toolbar-group page-controls" aria-label="页码控制">
                 <button class="toolbar-button prev-page-button" type="button" aria-label="上一页"></button>
-                <div class="page-input"><span>2</span><em>/ 15</em></div>
+                <div class="page-input"><span>1</span><em>/ 15</em></div>
                 <button class="toolbar-button next-page-button" type="button" aria-label="下一页"></button>
               </div>
               <div class="reader-goal-pill" title="当前阅读目标">
-                <span class="reader-stage-badge">问题 · 2 / 9</span>
-                <strong class="reader-goal">理解现有论文阅读工具没有解决的问题。</strong>
+                <span class="reader-stage-badge">背景 · 1 / 9</span>
+                <strong class="reader-goal">建立论文研究背景，判断它为什么值得精读。</strong>
               </div>
               <div class="toolbar-spacer"></div>
               <div class="toolbar-group zoom-controls" aria-label="缩放控制">
@@ -234,22 +234,22 @@
 
           <section class="coach-tab-panel is-active" data-tab-panel="coach">
             <div class="coach-stage-line">
-              <span class="reader-stage-badge">问题 · 2 / 9</span>
-              <strong class="coach-current-goal">理解现有论文阅读工具没有解决的问题。</strong>
+              <span class="reader-stage-badge">背景 · 1 / 9</span>
+              <strong class="coach-current-goal">建立论文研究背景，判断它为什么值得精读。</strong>
             </div>
 
             <div class="guidance-block">
               <span class="block-icon eye-icon"></span>
               <div>
                 <p>建议阅读：</p>
-                <strong>引言第 2-4 段，以及图 1</strong>
+                <strong>标题、摘要和 Introduction 前半部分</strong>
               </div>
             </div>
             <div class="guidance-block">
               <span class="block-icon target-icon"></span>
               <div>
                 <p>重点关注：</p>
-                <strong>现有摘要工具的局限</strong>
+                <strong>论文在做什么、为什么重要、属于哪个 Agent 子方向</strong>
               </div>
             </div>
 
@@ -258,15 +258,19 @@
               <ol>
                 <li>
                   <span>1</span>
-                  <p>现有工具没有解决的核心问题是什么？</p>
+                  <p>这篇论文在做什么？请用一句话回答。</p>
                 </li>
                 <li>
                   <span>2</span>
-                  <p>论文中哪些证据支持这个判断？</p>
+                  <p>它为什么重要？请指出具体研究缺口。</p>
                 </li>
                 <li>
                   <span>3</span>
-                  <p>PaperCoach 和普通 PDF 问答工具有什么不同？</p>
+                  <p>它和 Agent 哪个子方向最相关？证据在哪里？</p>
+                </li>
+                <li>
+                  <span>4</span>
+                  <p>它相对已有工作的关键变化是什么？</p>
                 </li>
               </ol>
             </section>

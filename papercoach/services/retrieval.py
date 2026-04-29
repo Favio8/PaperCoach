@@ -7,7 +7,6 @@ from dataclasses import dataclass
 
 from papercoach.schemas.papers import Paper, PaperSection
 
-
 TOKEN_RE = re.compile(r"[A-Za-z0-9_]+|[\u4e00-\u9fff]")
 
 
@@ -58,7 +57,9 @@ class LocalRetriever:
             if score > 0:
                 scored.append(RetrievalHit(chunk=chunk, score=score))
         scored.sort(key=lambda hit: hit.score, reverse=True)
-        return scored[:k] if scored else [RetrievalHit(chunk=chunk, score=0.0) for chunk in self.chunks[:k]]
+        if scored:
+            return scored[:k]
+        return [RetrievalHit(chunk=chunk, score=0.0) for chunk in self.chunks[:k]]
 
     def _score(self, query_counts: Counter[str], doc_counts: Counter[str]) -> float:
         score = 0.0

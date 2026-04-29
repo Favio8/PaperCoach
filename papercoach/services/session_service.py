@@ -63,7 +63,8 @@ class SessionService:
         )
         if question is None:
             raise ValidationError(
-                "Question is not active in this session. Request navigation before submitting answers."
+                "Question is not active in this session. "
+                "Request navigation before submitting answers."
             )
 
         paper = self.store.load_paper(session.paper_id)

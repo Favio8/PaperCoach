@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, File, Query, Request, UploadFile
 from fastapi.responses import Response
 
@@ -8,9 +10,15 @@ router = APIRouter(prefix="/papers", tags=["papers"])
 
 
 @router.post("", response_model=PaperUploadResponse)
-async def upload_paper(request: Request, file: UploadFile = File(...)) -> PaperUploadResponse:
+async def upload_paper(
+    request: Request,
+    file: Annotated[UploadFile, File(...)],
+) -> PaperUploadResponse:
     service: PaperService = request.app.state.paper_service
-    paper = service.create_from_upload(filename=file.filename or "paper.pdf", content=await file.read())
+    paper = service.create_from_upload(
+        filename=file.filename or "paper.pdf",
+        content=await file.read(),
+    )
     return PaperUploadResponse(paper_id=paper.paper_id, title=paper.title, status="parsed")
 
 

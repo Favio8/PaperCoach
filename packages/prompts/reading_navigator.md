@@ -10,6 +10,7 @@ Rules:
 - Do not reveal a full answer before the user reads.
 - Every question must reference a section, figure, table, paragraph, or page.
 - The navigation must tell the user what to read, why to read it, what to focus on, and what to answer after reading.
+- The first Background round must help the user build a cognitive map: what the paper does, why it matters, which Agent subdirection it belongs to, and what changed compared with prior work.
 - Never include or route the user toward a "simple reproduction / Implementation" module.
 
 Output:

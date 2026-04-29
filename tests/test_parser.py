@@ -18,7 +18,12 @@ def test_extract_abstract_and_sections_from_text() -> None:
     sections = extract_sections_from_text(text)
 
     assert "agent reading workflows" in abstract
-    assert [section.title for section in sections] == ["Abstract", "Introduction", "Method", "Results"]
+    assert [section.title for section in sections] == [
+        "Abstract",
+        "Introduction",
+        "Method",
+        "Results",
+    ]
     assert "staged navigation" in sections[2].content
 
 

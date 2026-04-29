@@ -14,7 +14,12 @@ class AnswerEvaluator:
     def __init__(self, llm_client: LLMClient | None = None) -> None:
         self.llm_client = llm_client
 
-    def evaluate(self, question: Question, answer: str, retriever: LocalRetriever) -> AnswerResponse:
+    def evaluate(
+        self,
+        question: Question,
+        answer: str,
+        retriever: LocalRetriever,
+    ) -> AnswerResponse:
         answer = answer.strip()
         hits = retriever.search(f"{question.question} {answer}", k=3)
         context = "\n".join(hit.chunk.text for hit in hits)
@@ -22,7 +27,9 @@ class AnswerEvaluator:
         reread_suggestions = [hit.chunk.location for hit in hits]
         feedback = self._llm_feedback(question, answer, scores, reread_suggestions, hits, context)
         feedback_source = "llm" if feedback is not None else "local"
-        feedback_provider = self.llm_client.provider if feedback is not None and self.llm_client else "local"
+        feedback_provider = (
+            self.llm_client.provider if feedback is not None and self.llm_client else "local"
+        )
         if feedback is None:
             feedback = self._feedback(question, answer, scores, reread_suggestions, hits)
         understood = self._understood(scores)
@@ -82,7 +89,8 @@ class AnswerEvaluator:
                 "【4. 可以继续挖深的问题】\n"
                 "- 这一位置里，哪一句最能说明作者的核心判断？\n\n"
                 "【5. 博客可用版本】\n"
-                "- 暂无。请先用自己的话完成一版回答，再整理成博客片段。\n\n"
+                "- 暂无。请先用自己的话完成一版回答，再按"
+                "“论文事实 / 我的理解 / 我的评价”整理成博客片段。\n\n"
                 "【6. 下一步阅读导航】\n"
                 f"- 建议先读：{question.evidence_location}\n"
                 "- 阅读目标：找到能回答当前问题的原文证据。\n"
@@ -105,6 +113,13 @@ class AnswerEvaluator:
             fixes.append("缺少明确证据位置，建议写出 section、figure、table 或页码。")
         if not fixes:
             fixes.append("当前回答可以继续推进，但建议再补一个更具体的原文证据。")
+        score_feedback = [
+            f"准确性：{score_label(scores['accuracy'])}",
+            f"完整性：{score_label(scores['completeness'])}",
+            f"深度：{score_label(scores['depth'])}",
+            f"表达质量：{score_label(scores['expression'])}",
+            f"证据使用：{score_label(scores['evidence'])}",
+        ]
 
         evidence_preview = ""
         if hits:
@@ -116,11 +131,14 @@ class AnswerEvaluator:
             for location in reread_suggestions[:3]
         )
         fixes_md = "\n".join(f"- {item}" for item in fixes)
+        score_md = "\n".join(f"- {item}" for item in score_feedback)
         blog_version = blog_ready_answer(answer, question, scores)
+        next_target = reread_suggestions[0] if reread_suggestions else question.evidence_location
         return (
             "【1. 你回答中的亮点】\n"
             f"- {highlight}\n\n"
             "【2. 需要修正的地方】\n"
+            f"{score_md}\n"
             f"{fixes_md}\n\n"
             "【3. 建议回读的位置】\n"
             f"{suggestions}\n\n"
@@ -129,7 +147,7 @@ class AnswerEvaluator:
             "【5. 博客可用版本】\n"
             f"{blog_version}\n\n"
             "【6. 下一步阅读导航】\n"
-            f"- 建议先读：{reread_suggestions[0] if reread_suggestions else question.evidence_location}\n"
+            f"- 建议先读：{next_target}\n"
             "- 阅读目标：把当前回答中的判断补上最直接的论文证据。\n"
             "- 重点关注：作者原始 claim、关键模块、指标或限制条件，避免只写抽象评价。\n"
             "- 读完后回来回答：请补充一个 section、figure、table 或页码级证据。\n\n"
@@ -158,10 +176,10 @@ class AnswerEvaluator:
             f"用户回答：\n{answer}\n\n"
             "请按以下结构输出：\n"
             "【1. 你回答中的亮点】\n"
-            "【2. 需要修正的地方】\n"
+            "【2. 需要修正的地方】必须分别评价准确性、完整性、深度、表达质量和证据使用。\n"
             "【3. 建议回读的位置】\n"
             "【4. 可以继续挖深的问题】\n"
-            "【5. 博客可用版本】\n"
+            "【5. 博客可用版本】要区分论文事实、我的理解、我的评价，且只写当前模块。\n"
             "【6. 下一步阅读导航】\n"
         )
         try:
@@ -252,6 +270,17 @@ def expression_score(answer: str) -> int:
     return 1
 
 
+def score_label(score: int) -> str:
+    labels = {
+        5: "很好，可以推进，但仍建议保留证据位置。",
+        4: "基本到位，补一处更精确证据会更稳。",
+        3: "有基础，但还需要补全关键链路。",
+        2: "偏弱，需要回到原文重新核对。",
+        1: "暂不充分，需要先建立原文证据。",
+    }
+    return labels.get(score, labels[1])
+
+
 def blog_ready_answer(answer: str, question: Question, scores: dict[str, int]) -> str:
     normalized = " ".join(answer.split())
     if scores["evidence"] <= 2:
@@ -261,4 +290,8 @@ def blog_ready_answer(answer: str, question: Question, scores: dict[str, int]) -
         )
     if len(normalized) > 260:
         normalized = f"{normalized[:260].rstrip()}..."
-    return f"- {normalized}"
+    return (
+        "- 论文事实：当前回答已引用了原文证据位置。\n"
+        f"- 我的理解：{normalized}\n"
+        "- 我的评价：这部分还可以继续补充“为什么该证据足以支持判断”和“可能的代价或边界”。"
+    )

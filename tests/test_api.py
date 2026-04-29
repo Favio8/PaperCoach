@@ -1,5 +1,5 @@
-from fastapi.testclient import TestClient
 import fitz
+from fastapi.testclient import TestClient
 
 from papercoach.app import create_app
 from papercoach.config import Settings

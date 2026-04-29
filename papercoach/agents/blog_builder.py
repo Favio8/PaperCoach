@@ -13,7 +13,12 @@ class BlogDraftBuilder:
     def __init__(self, llm_client: LLMClient | None = None) -> None:
         self.llm_client = llm_client
 
-    def build(self, stage: str, session: Session, retriever: LocalRetriever) -> BlogFragmentResponse:
+    def build(
+        self,
+        stage: str,
+        session: Session,
+        retriever: LocalRetriever,
+    ) -> BlogFragmentResponse:
         hits = retriever.search(STAGE_QUERIES.get(stage, stage), k=3)
         answers = [answer for answer in session.user_answers if answer.stage == stage]
 
@@ -23,13 +28,16 @@ class BlogDraftBuilder:
         if not facts:
             facts = "- 暂未检索到足够的论文事实，请先完成该阶段阅读导航。"
 
-        understanding = "\n".join(f"- {answer.answer.strip()}" for answer in answers if answer.answer.strip())
+        understanding = "\n".join(
+            f"- {answer.answer.strip()}" for answer in answers if answer.answer.strip()
+        )
         if not understanding:
             understanding = "- 这里等待补充你的阶段性理解。"
 
         feedback_notes = "\n".join(
             f"- Q `{answer.question_id}`: accuracy={answer.scores.get('accuracy', '-')}, "
-            f"depth={answer.scores.get('depth', '-')}, evidence={answer.scores.get('evidence', '-')}"
+            f"depth={answer.scores.get('depth', '-')}, "
+            f"evidence={answer.scores.get('evidence', '-')}"
             for answer in answers
         )
         if not feedback_notes:

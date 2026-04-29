@@ -7,7 +7,6 @@ from pathlib import Path
 from papercoach.core.ids import stable_id
 from papercoach.schemas.papers import Paper, PaperFigure, PaperParagraph, PaperSection, PaperTable
 
-
 KNOWN_HEADINGS = {
     "abstract",
     "introduction",
@@ -111,10 +110,11 @@ def extract_authors(page_texts: list[tuple[int, str]], title: str) -> list[str]:
         (idx for idx, line in enumerate(lines) if normalize_heading(line) == "abstract"),
         len(lines),
     )
-    title_words = title.split()
     title_end = 0
     for idx, line in enumerate(lines[:abstract_index]):
-        if line in title or all(word in title for word in line.split()[: min(3, len(line.split()))]):
+        line_words = line.split()
+        prefix_words = line_words[: min(3, len(line_words))]
+        if line in title or all(word in title for word in prefix_words):
             title_end = idx + 1
 
     author_lines: list[str] = []
@@ -192,7 +192,9 @@ def extract_sections_from_pages(page_texts: list[tuple[int, str]]) -> list[Paper
         split_heading = detect_split_heading(indexed_lines, idx)
         if split_heading and not is_table_header_line(indexed_lines, idx + 1):
             title_page, _ = indexed_lines[idx + 1]
-            headings.append(ParsedHeading(idx + 1, title_page, split_heading.title, split_heading.level))
+            headings.append(
+                ParsedHeading(idx + 1, title_page, split_heading.title, split_heading.level)
+            )
             idx += 2
             continue
 
@@ -263,7 +265,10 @@ def extract_tables_from_pages(page_texts: list[tuple[int, str]]) -> list[PaperTa
 
 def extract_references(text: str) -> list[str]:
     lines = clean_lines(text)
-    start = next((idx for idx, line in enumerate(lines) if normalize_heading(line) == "references"), None)
+    start = next(
+        (idx for idx, line in enumerate(lines) if normalize_heading(line) == "references"),
+        None,
+    )
     if start is None:
         return []
     refs: list[str] = []

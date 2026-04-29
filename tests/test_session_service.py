@@ -59,6 +59,8 @@ def test_session_navigation_answer_and_blog_fragment(tmp_path) -> None:
 
     assert navigation.stage == "Problem"
     assert navigation.reading_targets[0].title == "Introduction"
+    assert "当前模块：论文要解决的问题（Problem）" in navigation.goal
+    assert any("作者要提升的是认知能力" in point for point in navigation.focus_points)
     assert question.evidence_location
     assert answer.scores["expression"] >= 2
     assert answer.feedback_source == "local"

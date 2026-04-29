@@ -1,13 +1,35 @@
 from papercoach.agents.evaluator import AnswerEvaluator
 from papercoach.agents.prompts import COACH_SYSTEM_PROMPT
-from papercoach.schemas.sessions import Question
+from papercoach.agents.question_generator import QuestionGenerator
+from papercoach.schemas.sessions import Question, ReadingTarget
 
 
 def test_coach_prompt_excludes_implementation_module() -> None:
     assert "Implementation" in COACH_SYSTEM_PROMPT
     assert "不要包含" in COACH_SYSTEM_PROMPT
+    assert "初始化协议" in COACH_SYSTEM_PROMPT
+    assert "这篇论文在做什么" in COACH_SYSTEM_PROMPT
+    assert "难度自适应" in COACH_SYSTEM_PROMPT
     assert "【本轮阅读导航】" in COACH_SYSTEM_PROMPT
     assert "【5. 博客可用版本】" in COACH_SYSTEM_PROMPT
+
+
+def test_background_questions_start_with_cognitive_map() -> None:
+    target = ReadingTarget(
+        type="section",
+        id="sec_intro",
+        title="Introduction",
+        page_start=1,
+        page_end=2,
+        reason="test",
+    )
+    questions = QuestionGenerator().generate("Background", [target])
+
+    assert len(questions) == 4
+    assert "论文在做什么" in questions[0].question
+    assert "为什么重要" in questions[1].question
+    assert "Agent" in questions[2].question
+    assert "关键变化" in questions[3].question
 
 
 def test_fallback_feedback_uses_required_coach_sections() -> None:
@@ -32,4 +54,5 @@ def test_fallback_feedback_uses_required_coach_sections() -> None:
     assert "【4. 可以继续挖深的问题】" in feedback
     assert "【5. 博客可用版本】" in feedback
     assert "【6. 下一步阅读导航】" in feedback
-
+    assert "准确性：" in feedback
+    assert "论文事实：" in feedback
