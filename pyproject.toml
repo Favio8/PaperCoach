@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "papercoach"
 version = "0.1.0"
 description = "A Socratic Python agent for guided research paper understanding."
-readme = "PaperCoach.md"
+readme = "README.md"
 requires-python = ">=3.11,<3.13"
 dependencies = [
   "fastapi>=0.111,<1.0",
