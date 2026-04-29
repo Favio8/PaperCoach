@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+data/*.png
+data/edge-profile*/
+data/papers/
+data/uploads/
+data/sessions/
+/前端页面示意图.png
